@@ -6,8 +6,7 @@ int alloc[10][10],maxClm[10][10],MaxAvl[10];
 int need[10][10],work[10]={0},avail[10],req[10];
 
 int SAFETY(int arr[10])
-{	
-	printf("\n\nThe Sequence is : ");
+{	printf("\n\nThe Sequence is : ");
 	int finish[10]={0},target=0;
     for (k = 0; k < 5; k++) 
     {	
