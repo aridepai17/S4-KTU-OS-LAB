@@ -1,0 +1,116 @@
+#include<stdio.h>
+
+struct process
+{
+	int no,at,bt,ct,tt,wt,st,prio;
+}
+p[20];
+
+void sort(struct process pro[],int n)
+{
+	for(int i=1;i<n;i++)
+	{
+		for(int j=0;j<n-i;j++)
+		{
+			if(pro[j].at>pro[j+1].at)
+			{
+				struct process temp = pro[j];
+				pro[j]=pro[j+1];
+				pro[j+1]=temp;
+			}
+		}
+	}
+}
+
+void next(struct process pro[],int n,int i)
+{
+	int curr_at=pro[i-1].ct;
+	int lowPrio=99;
+	for(int j=i;j<n;j++)
+	{
+		if(p[j].at<curr_at)
+		{
+			if(p[j].prio<lowPrio)
+			{
+				lowPrio=p[j].prio;
+			}
+		}
+	}
+	for(int j=i;j<n;j++)
+	{
+		if(p[j].prio==lowPrio)
+		{
+			struct process temp = pro[j];
+			pro[j]=pro[i];
+			pro[i]=temp;
+		}
+	}
+}
+
+int main()
+{
+	int n;
+	float wt_avg=0,tt_avg=0;
+	printf("Enter the no of process:");
+	scanf("%d",&n);
+	printf("Enter the Arrival time, burst time and priority of each process\n");
+	for(int i=0;i<n;i++)
+	{
+		p[i].no=i+1;
+		printf("p%d:",p[i].no);
+		scanf("%d",&p[i].at);
+		scanf("%d",&p[i].bt);
+		scanf("%d",&p[i].prio);
+	}
+	sort(p,n);
+	for(int i=0;i<n;i++)
+	{
+		if(i==0)
+		{
+			p[i].ct=p[i].at+p[i].bt;
+			p[i].st=p[i].at;
+		}
+		else
+		{
+			next(p,n,i);
+			p[i].ct=p[i-1].ct+p[i].bt;
+			p[i].st=p[i-1].ct;	
+		}
+		p[i].tt=p[i].ct-p[i].at;
+		p[i].wt=p[i].tt-p[i].bt;
+		tt_avg+=p[i].tt;
+		wt_avg+=p[i].wt;
+	}
+
+	wt_avg=wt_avg/n;
+	tt_avg=tt_avg/n;
+	printf("Process\t\tArrival Time\tBurst Time\tpriority\tCompletion Time\tTurnAround Time\n");
+	for(int i=0;i<n;i++)
+	{
+		printf("p%d\t\t%d\t\t%d\t\t%d\t\t%d\t\t%d\n",p[i].no,p[i].at,p[i].bt,p[i].prio,p[i].ct,p[i].tt);
+	}
+	printf("Average waiting time:%.2f\n",wt_avg);
+	printf("Average Turnaround time:%.2f\n\n",tt_avg);
+	printf("Gantt Chart\n");
+	printf("-------------------------------------------------------------------------------------\n");
+	printf("|");
+	for(int i=0;i<n;i++)
+	{
+		printf("|\tp%d\t|",p[i].no);
+	}
+	printf("|\n");
+	printf("----------------------------------------------------------------------------------------\n");
+	for(int i=0;i<n;i++)
+	{
+		if(i==0 || p[i].at>p[i-1].ct)
+		{
+			printf("%d\t\t",p[i].st);
+			printf("%d ",p[i].ct);
+		}
+		else
+		{
+			printf("\t\t%d",p[i].ct);
+		}
+	}
+	printf("\n---------------------------------------------------------------------------------------------------");
+}
