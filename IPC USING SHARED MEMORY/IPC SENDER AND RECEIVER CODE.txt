@@ -36,12 +36,12 @@ void main()
 	id=shmget((key_t)1222,1024,0666);
 	printf("Key of Shared Memory is %d\n",id);
 	sm=shmat(id,NULL,0);
-    printf("Process attached at %p\n",sm);
-    printf("Data read from Memory:\n%s\n",(char *)sm);
-    strcpy(buf,sm);
-    int a=buf[0]-'0';
-    int b=buf[2]-'0';
-    printf("The Sum is %d\n",a+b);     
+  printf("Process attached at %p\n",sm);
+  printf("Data read from Memory:\n%s\n",(char *)sm);
+  strcpy(buf,sm);
+  int a=buf[0]-'0';
+  int b=buf[2]-'0';
+  printf("The Sum is %d\n",a+b);     
  }
 
 
