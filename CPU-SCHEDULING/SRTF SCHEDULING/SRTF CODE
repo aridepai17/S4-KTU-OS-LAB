@@ -36,26 +36,26 @@ int main()
         pro[shortest].TR--;
         minRemTime = pro[shortest].TR;
         if (ptr == -1 || proarr[ptr] != shortest)
-         {
+        {
             ptr++;
             proarr[ptr] = shortest;
             noarr[ptr] = currentTime;
-         } 
+        } 
         else
             noarr[ptr]++;
         if (minRemTime == 0)
             minRemTime = INT_MAX;
         if (pro[shortest].TR == 0)
-         {
+        {
             completed++;
             pro[shortest].CT = currentTime + 1;
             pro[shortest].TAT = pro[shortest].CT - pro[shortest].AT;
             pro[shortest].WT = pro[shortest].TAT - pro[shortest].BT;
             totalWT += pro[shortest].WT;
             totalTAT += pro[shortest].TAT;
-         }
+        }
         currentTime++;
-    }
+     }
     
     printf("\n\nGANTT CHART \n--------------------------------------------------------\n");
     for (i = 0; i <= ptr; i++)
