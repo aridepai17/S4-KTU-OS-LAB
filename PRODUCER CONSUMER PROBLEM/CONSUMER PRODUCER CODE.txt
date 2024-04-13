@@ -12,7 +12,7 @@ void producer(int *p)
 {  	 
 	int a[10],i=0,n=*(int*)p;
 	while(i<=5) 
-    {   	sem_wait(&empty);
+  {		sem_wait(&empty);
 			sem_wait(&mutex);
 			a[i]=3;
 			printf("Producer %d Produced Item %d\n",n,i);
@@ -29,8 +29,8 @@ void consumer(void *p)
 	int b[10],i=0,n=*(int*)p;
 	while(i<=5) 
 	{		sem_wait(&full);
-	    	sem_wait(&mutex);
-	    	printf("Consumer %d Consumes Item %d\n",n,i);
+	    sem_wait(&mutex);
+	    printf("Consumer %d Consumes Item %d\n",n,i);
 			sleep(1);
 			b[i]=buffer[i];
 			i++;
@@ -47,8 +47,8 @@ void main()
 	sem_init(&full,0,0);
 	for(n=0;n<5;n++) 
 	{	
-		pthread_create(&p[n],0,(void *)PRODUCER,(void *)&n);
-		pthread_create(&c[n],0,(void *)CONSUMER,(void *)&n);  
-	 }
-		while(1);      
- }
+		pthread_create(&p[n],0,(void *)producer,(void *)&n);
+		pthread_create(&c[n],0,(void *)consumer,(void *)&n);  
+	}
+	while(1);      
+}
