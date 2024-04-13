@@ -1,0 +1,72 @@
+#include<stdio.h>
+
+void main() 
+{
+  int p[20], wt[20], bt[20], tt[20], n, temp;
+  float wtavg = 0;
+  float ttavg = 0;
+
+  printf("Enter the number of processes: ");
+  scanf("%d", & n);
+  printf("Enter the burst time of each process: \n");
+  for (int i = 0; i < n; i++) 
+  {
+    p[i] = i + 1;
+    printf("P%d: ", i + 1);
+    scanf("%d", & bt[i]);
+  }
+
+  for (int i = 1; i < n; i++) 
+  {
+    for (int j = 0; j < n - i; j++) 
+    {
+      if (bt[j] > bt[j + 1]) 
+      {
+        temp = p[j];
+        p[j] = p[j + 1];
+        p[j + 1] = temp;
+        temp = bt[j];
+        bt[j] = bt[j + 1];
+        bt[j + 1] = temp;
+      }
+    }
+  }
+
+  wt[0] = 0;
+  for (int i = 1; i < n; i++) 
+  {
+    wt[i] = bt[i - 1] + wt[i - 1];
+    wtavg += wt[i];
+  }
+  
+  wtavg /= n;
+  
+  for (int i = 0; i < n; i++) 
+  {
+    tt[i] = wt[i] + bt[i];
+    ttavg += tt[i];
+  }
+  
+  ttavg /= n;
+
+  printf("\nProcess\t\tBurst time\t\tWaiting time\t\tTurnaround Time\n");
+  for (int i = 0; i < n; i++) 
+  {
+    printf("P%d\t\t%d\t\t\t%d\t\t\t%d\n", p[i], bt[i], wt[i], tt[i]);
+  }
+  printf("\nAverage Waiting time: %f", wtavg);
+  printf("\nAverage Turn around time: %f\n", ttavg);
+  printf("\nGantt chart\n\n");
+  printf("\n.................................................................\n");
+  for (int i = 0; i < n; i++) 
+  {
+    printf("|\tP%d\t|", p[i]);
+  }
+  printf("\n.................................................................\n");
+  for (int i = 0; i < n; i++) 
+  {
+    printf("%d\t\t", wt[i]);
+  }
+  printf("%d", tt[n - 1]);
+  printf("\n..................................................................\n");
+}
