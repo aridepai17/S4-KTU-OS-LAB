@@ -34,7 +34,7 @@ void TAKEFORK(int i)
     sem_wait(&mutex);
     state[i] = HUNGRY;
     if (state[i] == HUNGRY && state[LEFT] != EATING && state[RIGHT] != EATING)
-     {
+    {
         state[i] = EATING;
         sem_post(&s[i]);
     }
