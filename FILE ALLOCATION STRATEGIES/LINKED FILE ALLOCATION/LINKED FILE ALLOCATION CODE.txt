@@ -1,0 +1,63 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+
+struct block 
+{
+    int n;
+    struct block *next;
+};
+
+struct file 
+{
+    char name[10];
+    int num;
+    struct block *temp,*node;
+} a[20];
+
+void main() 
+{
+    struct block *head[20];
+    int n,i,j;
+    char nam[10];
+    printf("Enter the no. of files: ");
+    scanf("%d",&n);
+    for(i=0;i<n;i++) 
+    {
+        head[i]=NULL;
+        printf("\nEnter the name of file %d: ",i+1);
+        scanf("%s",a[i].name);
+        printf("Enter the no. of blocks in file %s: ",a[i].name);
+        scanf("%d",&a[i].num);
+        printf("Enter the blocks in file %s: ",a[i].name);
+        for(j=0;j<a[i].num;j++) 
+        {
+            a[i].node=(struct block*)malloc(sizeof(struct block));
+            scanf("%d",&a[i].node->n);
+            if(head[i]==NULL) 
+            {
+                head[i]=a[i].temp=a[i].node;
+                a[i].temp->next=NULL;
+            }
+            else {
+                a[i].temp->next=a[i].node;
+                a[i].temp=a[i].temp->next;
+                a[i].temp->next=NULL;
+            }
+        }
+    }
+    printf("\nEnter the name of file to be searched: ");
+    scanf("%s",nam);
+    for(i=0;i<n;i++)
+        if(strcmp(nam,a[i].name)==0)
+            break;
+    printf("\nFile Name\tNo. of Blocks\tBlocks Occupied\n");
+    printf("%s\t\t%d\t\t",a[i].name,a[i].num);
+    a[i].temp=head[i];
+    while(a[i].temp!=NULL) 
+    {
+        printf("%d -> ",a[i].temp->n);
+        a[i].temp=a[i].temp->next;
+    }
+    printf("\n");
+}

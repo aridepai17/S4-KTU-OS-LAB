@@ -1,0 +1,35 @@
+#include<stdio.h>
+#include<string.h>
+
+struct file 
+{
+    char name[10];
+    int num,start;
+} a[20];
+
+void main() 
+{
+    int n,i,j;
+    char nam[10];
+    printf("Enter the no. of files: ");
+    scanf("%d",&n);
+    for(i=0;i<n;i++) 
+    {
+        printf("\nEnter the name of file %d: ",i+1);
+        scanf("%s",a[i].name);
+        printf("Enter the starting block of file %s: ",a[i].name);
+        scanf("%d",&a[i].start);
+        printf("Enter the no. of blocks in file %s: ",a[i].name);
+        scanf("%d",&a[i].num);
+    }
+    printf("\nEnter the name of file to be searched: ");
+    scanf("%s",nam);
+    for(i=0;i<n;i++)
+        if(strcmp(nam,a[i].name)==0)
+            break;
+    printf("\nFile Name\tStart Block\tNo. of Blocks\tBlocks Occupied\n");
+    printf("%s\t\t%d\t\t%d\t\t",a[i].name,a[i].start,a[i].num);
+    for(j=0;j<a[i].num;j++)
+        printf("%d  ",a[i].start++);
+    printf("\n");
+}
