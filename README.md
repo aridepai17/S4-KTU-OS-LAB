@@ -1,1 +1,0 @@
-Welcome to the KTU OS Semester 4 Lab Programs Repository! This repository contains a collection of laboratory programs designed specifically for the Operating Systems (OS) course as per the Kerala Technological University (KTU) syllabus.
