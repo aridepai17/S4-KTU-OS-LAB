@@ -1,0 +1,250 @@
+#include <stdio.h>
+int i,j;
+struct priority
+{
+	int pno,at,bt,ct,tat,wt,currbt,prio;
+}arr[10],temp;
+
+
+void priosort(int start, int end)
+	{
+    int i;
+    int low=start;
+    for(i=start+1;i<end;i++)
+	{
+        if(arr[low].prio<arr[i].prio)
+            low=i;
+        if(arr[low].prio==arr[i].prio && arr[low].at>arr[i].at)
+            low=i;
+    }
+    if(low!=start)
+	{
+        temp=arr[start];
+        arr[start]=arr[low];
+        arr[low]=temp;
+    }
+} 
+int main()
+{
+	int n,i,a[100],time=0,count=0;
+	int ttat=0,twt=0;
+	printf("Enter the  no of process:");
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+	{
+	  	arr[i].pno = i+1;
+	  	printf("\nENTER THE DETAILS OF P%d\n\n",i+1);
+	    printf("Enter the burst time:");
+	    scanf("%d",&arr[i].bt);
+	    arr[i].currbt = arr[i].bt;
+	    printf("Enter the arrival time:");
+	    scanf("%d",&arr[i].at);
+	    printf("Enter the priority:");
+	    scanf("%d",&arr[i].prio);
+	}
+	time=arr[0].at+1;
+	arr[0].currbt--;
+	a[0]=arr[0].pno;
+	
+	
+	while(count!=n)
+	{
+	   if(arr[count].currbt==0)
+	   {	
+			arr[count].ct=time;
+	       	arr[count].tat=arr[count].ct-arr[count].at;
+	       	ttat+=arr[count].tat;
+	       	arr[count].wt=arr[count].tat-arr[count].bt;
+	       	twt+=arr[count].wt;
+	       	count++;	
+	   }
+	   int k=count;
+	   if(arr[count].at>time)
+	   {
+	       a[time]=0;
+	       time++;
+	   }
+	   else
+	   {
+	       while(arr[k].at<=time && k<n)
+		   {
+	           k++;
+	       }
+	       if(count+1!=k)
+	           priosort(count,k);
+	       arr[count].currbt--;
+	       a[time]=arr[count].pno;
+	       time++;
+	   }
+	}
+	printf("PID\tAT\tBT\tPT\tCT\tTAT\tWT\n");
+	for(i=0;i<n;i++)
+	{
+		printf("P%d\t%d\t%d\t%d\t%d\t%d\t%d\n",arr[i].pno,arr[i].at,arr[i].bt,arr[i].prio,arr[i].ct,arr[i].tat,arr[i].wt);
+	}
+	printf("\n");
+	for(i=0;i<time-1;i++)
+	{
+	   if(a[i]==0)
+	       printf("//");
+	   else if(i!=0 && a[i-1]==a[i])
+	       printf(" ");
+	   else
+	       printf("|P%d",a[i]);
+	}
+	
+	printf("|\n");
+	for(i=0;i<time-1;i++)
+	{
+	   if((i==0 && a[i]==0 ) || (i!=0 && a[i]==0 && a[i-1]!=0))
+	       printf("%d ",i);
+	   else if(i!=0 && a[i-1]==a[i])
+	       printf(" ");
+	   else
+	       printf("%d  ",i);
+	}
+	printf("%d\n",time-1);
+	printf("\nTotal waiting time : %d",twt);
+  	printf("\nTotal turn around time : %d",ttat);
+	printf("\nAverage turn-around time=%.2f\naverage waiting time=%.2f",(float)(ttat)/n,(float)(twt)/n);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+//#include<stdio.h>
+//#define MAX 9999;
+//struct proc
+//{
+//    int no,at,bt,rt,ct,wt,tat,pri,temp;
+//};
+//struct proc read(int i)
+//{
+//    struct proc p;
+//    printf("\nProcess No: %d\n",i);
+//    p.no=i;
+//    printf("Enter Arrival Time: ");
+//    scanf("%d",&p.at);
+//    printf("Enter Burst Time: ");
+//    scanf("%d",&p.bt);
+//    p.rt=p.bt;
+//    printf("Enter Priority: ");
+//    scanf("%d",&p.pri);
+//    p.temp=p.pri;
+//    return p;
+//}
+//void main()
+//{
+//    int i,n,c,remaining,min_val,min_index;
+//    struct proc p[10],temp;
+//    float avgtat=0,avgwt=0;
+//    printf("<--Smallest Priority First Scheduling Algorithm (Preemptive)-->\n");
+//    printf("Enter Number of Processes: ");
+//    scanf("%d",&n);
+//    for(int i=0;i<n;i++)
+//        p[i]=read(i+1);
+//    remaining=n;
+//	for(int i=0;i<n-1;i++)
+//        for(int j=0;j<n-i-1;j++)    
+//            if(p[j].at>p[j+1].at)
+//            {
+//            temp=p[j];
+//            p[j]=p[j+1];
+//            p[j+1]=temp;
+//            }
+//    min_val=p[0].temp,min_index=0;
+//	for(int j=0;j<n&&p[j].at<=p[0].at;j++)
+//		if(p[j].temp<min_val)
+//			min_val=p[j].temp,min_index=j;
+//	i=min_index;
+//	c=p[i].ct=p[i].at+1;
+//	p[i].rt--;
+//	if(p[i].rt==0)
+//	{
+//		p[i].temp=MAX;
+//		remaining--;
+//	}
+//	while(remaining>0)
+//	{
+//		min_val=p[0].temp,min_index=0;
+//    	for(int j=0;j<n&&p[j].at<=c;j++)
+//    		if(p[j].temp<min_val)
+//    			min_val=p[j].temp,min_index=j;
+//    	i=min_index;
+//		p[i].ct=c=c+1;
+//		p[i].rt--;
+//		if(p[i].rt==0)
+//		{
+//		    p[i].temp=MAX;
+//		    remaining--;
+//		}
+//	}
+//		printf("\nProcessNo\tAT\tBT\tPri\tCT\tTAT\tWT\n");
+//    for(int i=0;i<n;i++)
+//    {
+//        p[i].tat=p[i].ct-p[i].at;
+//        avgtat+=p[i].tat;
+//        p[i].wt=p[i].tat-p[i].bt;
+//        avgwt+=p[i].wt;
+//        printf("P%d\t\t%d\t%d\t%d\t%d\t%d\t%d\n",p[i].no,p[i].at,p[i].bt,p[i].pri,p[i].ct,p[i].tat,p[i].wt);
+//    }
+//    avgtat/=n,avgwt/=n;
+//    printf("\nAverage TurnAroundTime=%f\nAverage WaitingTime=%f",avgtat,avgwt);
+//}
